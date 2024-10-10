@@ -1,0 +1,169 @@
+# Copyright (C) 2024 WPClever
+# This file is distributed under the same license as the WPC Order Notes for WooCommerce plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WPC Order Notes for WooCommerce 1.5.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-order-notes\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-08-21T10:39:48+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: woo-order-notes\n"
+
+#. Plugin Name of the plugin
+#: wpc-order-notes.php:98
+msgid "WPC Order Notes for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wpclever.net/"
+msgstr ""
+
+#. Description of the plugin
+msgid "WPC Order Notes help you manage all order notes more easily. You can see all notes in one place and quickly view notes of an order in the popup."
+msgstr ""
+
+#. Author of the plugin
+msgid "WPClever"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpclever.net"
+msgstr ""
+
+#: wpc-order-notes.php:84
+msgid "WPC Order Notes"
+msgstr ""
+
+#: wpc-order-notes.php:84
+#: wpc-order-notes.php:237
+#: wpc-order-notes.php:442
+msgid "Order Notes"
+msgstr ""
+
+#: wpc-order-notes.php:88
+#: wpc-order-notes.php:448
+msgid "Notes"
+msgstr ""
+
+#. translators: stars
+#: wpc-order-notes.php:101
+msgid "Thank you for using our plugin! If you are satisfied, please reward it a full five-star %s rating."
+msgstr ""
+
+#: wpc-order-notes.php:103
+msgid "Reviews"
+msgstr ""
+
+#: wpc-order-notes.php:104
+msgid "Changelog"
+msgstr ""
+
+#: wpc-order-notes.php:105
+msgid "Discussion"
+msgstr ""
+
+#: wpc-order-notes.php:111
+#: wpc-order-notes.php:164
+msgid "How to use?"
+msgstr ""
+
+#: wpc-order-notes.php:114
+msgid "Essential Kit"
+msgstr ""
+
+#: wpc-order-notes.php:121
+msgid "1. View all order notes"
+msgstr ""
+
+#: wpc-order-notes.php:125
+msgid "2. Quick view all notes of an order"
+msgstr ""
+
+#: wpc-order-notes.php:129
+msgid "3. Open the order page"
+msgstr ""
+
+#: wpc-order-notes.php:180
+msgid "Community support"
+msgstr ""
+
+#: wpc-order-notes.php:244
+msgid "Search"
+msgstr ""
+
+#. translators: counter
+#: wpc-order-notes.php:249
+#: wpc-order-notes.php:360
+msgid "%1$d notes in %2$d pages"
+msgstr ""
+
+#: wpc-order-notes.php:266
+#: wpc-order-notes.php:340
+msgid "Order"
+msgstr ""
+
+#: wpc-order-notes.php:269
+#: wpc-order-notes.php:343
+msgid "Note"
+msgstr ""
+
+#: wpc-order-notes.php:272
+#: wpc-order-notes.php:346
+msgid "Time"
+msgstr ""
+
+#: wpc-order-notes.php:275
+#: wpc-order-notes.php:349
+msgid "Quick view"
+msgstr ""
+
+#. translators: date time
+#: wpc-order-notes.php:316
+#: wpc-order-notes.php:482
+msgid "%1$s %2$s"
+msgstr ""
+
+#. translators: author
+#: wpc-order-notes.php:319
+#: wpc-order-notes.php:485
+msgid "by %s"
+msgstr ""
+
+#: wpc-order-notes.php:323
+#: wpc-order-notes.php:399
+#: wpc-order-notes.php:489
+msgid "Note to customer"
+msgstr ""
+
+#: wpc-order-notes.php:379
+msgid "Permissions check failed!"
+msgstr ""
+
+#: wpc-order-notes.php:392
+msgid "Add note"
+msgstr ""
+
+#: wpc-order-notes.php:392
+msgid "Add a note for your reference, or add a customer note (the user will be notified)."
+msgstr ""
+
+#: wpc-order-notes.php:396
+msgid "Note type"
+msgstr ""
+
+#: wpc-order-notes.php:398
+msgid "Private note"
+msgstr ""
+
+#: wpc-order-notes.php:401
+msgid "Add"
+msgstr ""
+
+#: wpc-order-notes.php:447
+msgid "Latest Note"
+msgstr ""

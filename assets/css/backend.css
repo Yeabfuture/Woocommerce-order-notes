@@ -1,0 +1,223 @@
+.wooon-quickview {
+    color: #555555;
+    outline: none;
+    box-shadow: none;
+}
+
+.wooon-quickview:hover {
+    color: #0073aa;
+}
+
+.wooon-quickview:focus {
+    box-shadow: none;
+}
+
+.wooon-dialog .note_items .note_item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #dddddd;
+}
+
+.wooon-dialog .note_items .note_item.current {
+    background-color: #f3ffe2;
+}
+
+.wooon-dialog .note_items .note_item:first-child {
+    padding-top: 0;
+}
+
+.wooon-dialog .note_items .note_item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.wooon-dialog .note_items .note_item .note_content {
+    margin-bottom: 10px;
+}
+
+.wooon-dialog .note_items .note_item .note_content p {
+    margin: 0;
+}
+
+.wooon-dialog .note_items .note_item .note_meta {
+    color: #999999;
+    font-size: 10px;
+}
+
+.wooon-dialog .order_notes {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.wooon-dialog .order_notes .note:last-child {
+    margin-bottom: 0;
+}
+
+.wooon_latest_note .note_meta {
+    color: #999999;
+}
+
+.wooon-dialog li.note textarea {
+    display: block;
+    width: 100%;
+}
+
+.woocommerce_page_wpc-order-notes .wooon-dialog .delete_note, .woocommerce_page_wpc-order-notes .wooon-dialog .edit_note, .woocommerce_page_wpc-order-notes .wooon-dialog .add_note {
+    display: none !important;
+}
+
+.wooon-dialog div.add_note {
+    border-top: none !important;
+    padding: 0 !important;
+}
+
+/* WPC Dialog */
+
+.ui-dialog.wpc-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100102;
+    background-color: #fff;
+    border: 1px solid #dfdfdf;
+    border-radius: 0;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    color: #3c434a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar {
+    background: #fcfcfc;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #dfdfdf;
+    border-radius: 0;
+    height: 36px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 36px;
+    padding: 0 36px 0 16px
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar .ui-dialog-title {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
+    background: 0 0;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #666;
+    cursor: pointer;
+    display: block;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    outline: none;
+    overflow: hidden;
+    font-size: 0;
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:before {
+    font: 400 20px/1 dashicons;
+    vertical-align: top;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 36px;
+    width: 36px;
+    height: 36px;
+    content: '\f158';
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
+    color: #00a0d2;
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close span {
+    display: none;
+}
+
+.ui-dialog.wpc-dialog .ui-dialog-content {
+    padding: 16px;
+    overflow: auto;
+}
+
+/* Style for WPC Order Notes */
+
+.woocommerce_page_wpc-order-notes ul.order_notes {
+    padding: 2px 0 0
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li .note_content {
+    padding: 10px;
+    background: #efefef;
+    position: relative
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li .note_content p {
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li p.meta {
+    padding: 10px;
+    color: #999;
+    margin: 0;
+    font-size: 11px
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li p.meta .exact-date {
+    border-bottom: 1px dotted #999
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li a.delete_note {
+    color: #a00
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li .note_content::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-width: 10px 10px 0 0;
+    border-style: solid;
+    border-color: #efefef transparent
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li.system-note .note_content {
+    background: #d7cad2
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li.system-note .note_content::after {
+    border-color: #d7cad2 transparent
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li.customer-note .note_content {
+    background: #a7cedc
+}
+
+.woocommerce_page_wpc-order-notes ul.order_notes li.customer-note .note_content::after {
+    border-color: #a7cedc transparent
+}
