@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Manual Order Notes
 Description: Adds and sends woocommerce manual notes into email of admins
 Version: 1.0
-Author: Yeabsira
+Author: WPC team && Yeabsira
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -89,15 +89,6 @@ if ( ! class_exists( 'WPCleverWooon' ) ) {
 			?>
             <div class="wpclever_settings_page wrap">
                 <h1 class="wpclever_settings_page_title"><?php echo esc_html__( 'WPC Order Notes for WooCommerce', 'woo-order-notes' ) . ' ' . esc_html( WOOON_VERSION ); ?></h1>
-                <div class="wpclever_settings_page_desc about-text">
-                    <p>
-						<?php printf( /* translators: stars */ esc_html__( 'Thank you for using our plugin! If you are satisfied, please reward it a full five-star %s rating.', 'woo-order-notes' ), '<span style="color:#ffb900">&#9733;&#9733;&#9733;&#9733;&#9733;</span>' ); ?>
-                        <br/>
-                        <a href="<?php echo esc_url( WOOON_REVIEWS ); ?>" target="_blank"><?php esc_html_e( 'Reviews', 'woo-order-notes' ); ?></a> |
-                        <a href="<?php echo esc_url( WOOON_CHANGELOG ); ?>" target="_blank"><?php esc_html_e( 'Changelog', 'woo-order-notes' ); ?></a> |
-                        <a href="<?php echo esc_url( WOOON_DISCUSSION ); ?>" target="_blank"><?php esc_html_e( 'Discussion', 'woo-order-notes' ); ?></a>
-                    </p>
-                </div>
                 <div class="wpclever_settings_page_nav">
                     <h2 class="nav-tab-wrapper">
                         <a href="?page=wpclever-wooon&tab=how" class="<?php echo esc_attr( $active_tab == 'how' ? 'nav-tab nav-tab-active' : 'nav-tab' ); ?>">
@@ -355,85 +346,114 @@ if ( ! class_exists( 'WPCleverWooon' ) ) {
 			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wooon_nonce' ) ) {
 				die( esc_html__( 'Permissions check failed!', 'woo-order-notes' ) );
 			}
-
+		
 			$notes_html = '';
-
+		
 			if ( isset( $_POST['order'] ) ) {
 				ob_start();
 				echo '<div id="woocommerce-order-notes" data-id="' . esc_attr( $_POST['order'] ) . '">';
 				$notes = wc_get_order_notes( [ 'order_id' => $_POST['order'] ] );
 				include dirname( WC_PLUGIN_FILE ) . '/includes/admin/meta-boxes/views/html-order-notes.php';
 				?>
-                <div class="add_note">
-                    <p>
-                        <label for="add_order_note"><?php esc_html_e( 'Add note', 'woo-order-notes' ); ?><?php echo wc_help_tip( __( 'Add a note for your reference, or add a customer note (the user will be notified).', 'woo-order-notes' ) ); ?></label>
-                        <textarea name="order_note" id="add_order_note" class="input-text" cols="20" rows="5"></textarea>
-                    </p>
-                    <p>
-                        <label for="order_note_type" class="screen-reader-text"><?php esc_html_e( 'Note type', 'woo-order-notes' ); ?></label>
-                        <select name="order_note_type" id="order_note_type" style=" vertical-align: baseline">
-                            <option value=""><?php esc_html_e( 'Private note', 'woo-order-notes' ); ?></option>
-                            <option value="customer"><?php esc_html_e( 'Note to customer', 'woo-order-notes' ); ?></option>
-                        </select>
-                        <button type="button" style=" vertical-align: baseline" class="add_note button"><?php esc_html_e( 'Add', 'woo-order-notes' ); ?></button>
-                    </p>
-                </div>
+				<div class="add_note">
+					<p>
+						<label for="add_order_note"><?php esc_html_e( 'Add note', 'woo-order-notes' ); ?><?php echo wc_help_tip( __( 'Add a note for your reference, or add a customer note (the user will be notified).', 'woo-order-notes' ) ); ?></label>
+						<textarea name="order_note" id="add_order_note" class="input-text" cols="20" rows="5"></textarea>
+					</p>
+					<p>
+						<label for="order_note_type" class="screen-reader-text"><?php esc_html_e( 'Note type', 'woo-order-notes' ); ?></label>
+						<select name="order_note_type" id="order_note_type" style=" vertical-align: baseline">
+							<option value=""><?php esc_html_e( 'Private note', 'woo-order-notes' ); ?></option>
+							<option value="customer"><?php esc_html_e( 'Note to customer', 'woo-order-notes' ); ?></option>
+						</select>
+						<button type="button" style=" vertical-align: baseline" class="add_note button"><?php esc_html_e( 'Add', 'woo-order-notes' ); ?></button>
+					</p>
+				</div>
 				<?php
 				echo '</div>';
 				$notes_html = ob_get_clean();
 			}
-
+		
 			echo $notes_html;
 			wp_die();
 		}
-
+		
 		function ajax_update_order_note() {
+			// Verify nonce for security
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wooon_nonce' ) ) {
+				wp_send_json_error( __( 'Nonce verification failed', 'woo-order-notes' ) );
+				wp_die();
+			}
+		
+			// Ensure required data is provided
+			if ( ! isset( $_POST['note_id'], $_POST['note_content'] ) ) {
+				wp_send_json_error( __( 'Missing parameters', 'woo-order-notes' ) );
+				wp_die();
+			}
+		
 			$comment = [
 				'comment_ID'      => sanitize_text_field( $_POST['note_id'] ),
 				'comment_content' => sanitize_text_field( $_POST['note_content'] )
 			];
-			wp_update_comment( $comment );
-
-			echo $_POST['note_content'];
+		
+			// Update comment and check for success
+			$result = wp_update_comment( $comment );
+			if ( $result ) {
+				wp_send_json_success( $_POST['note_content'] );
+			} else {
+				wp_send_json_error( __( 'Failed to update note', 'woo-order-notes' ) );
+			}
+		
 			wp_die();
 		}
-
+		
 		function ajax_add_order_note() {
+			// Verify nonce for security
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wooon_nonce' ) ) {
+				wp_send_json_error( __( 'Nonce verification failed', 'woo-order-notes' ) );
+				wp_die();
+			}
+		
+			// Ensure required data is provided
+			if ( ! isset( $_POST['ids'], $_POST['note'], $_POST['note_type'] ) ) {
+				wp_send_json_error( __( 'Missing parameters', 'woo-order-notes' ) );
+				wp_die();
+			}
+		
 			$ids              = explode( '.', $_POST['ids'] );
 			$note_type        = wc_clean( wp_unslash( $_POST['note_type'] ) );
 			$is_customer_note = ( 'customer' === $note_type ) ? 1 : 0;
-
+		
 			foreach ( $ids as $id ) {
 				$order = wc_get_order( $id );
-
+		
 				if ( $order ) {
 					$order->add_order_note( trim( $_POST['note'] ), $is_customer_note, true );
+				} else {
+					wp_send_json_error( __( 'Order not found', 'woo-order-notes' ) );
 				}
 			}
-
+		
+			wp_send_json_success( __( 'Note added successfully', 'woo-order-notes' ) );
 			wp_die();
 		}
-
+		
 		function admin_footer() {
 			?>
-            <div class="wooon-dialog" id="wooon_dialog" style="display: none" title="<?php esc_html_e( 'Order Notes', 'woo-order-notes' ); ?>"></div>
+			<div class="wooon-dialog" id="wooon_dialog" style="display: none" title="<?php esc_html_e( 'Order Notes', 'woo-order-notes' ); ?>"></div>
 			<?php
 		}
-
+		
 		function shop_order_columns( $columns ) {
 			$columns['wooon_latest']    = esc_html__( 'Latest Note', 'woo-order-notes' );
 			$columns['wooon_quickview'] = esc_html__( 'Notes', 'woo-order-notes' );
-
+		
 			return $columns;
 		}
-
+		
 		function shop_order_columns_content( $column, $order_id_or_obj ) {
-			if ( is_numeric( $order_id_or_obj ) ) {
-				$order_id = $order_id_or_obj;
-			} else {
-				$order_id = $order_id_or_obj->id;
-			}
-
+			$order_id = is_numeric( $order_id_or_obj ) ? $order_id_or_obj : $order_id_or_obj->get_id();
+		
 			if ( $column == 'wooon_latest' ) {
 				$args = [
 					'post_id' => (int) $order_id,
@@ -446,103 +466,88 @@ if ( ! class_exists( 'WPCleverWooon' ) ) {
 				remove_filter( 'comments_clauses', [ 'WC_Comments', 'exclude_order_comments' ] );
 				$notes = get_comments( $args );
 				add_filter( 'comments_clauses', [ 'WC_Comments', 'exclude_order_comments' ] );
-
+		
 				if ( $notes ) {
 					foreach ( $notes as $note ) {
 						?>
-                        <div class="wooon_latest_note">
-                            <div class="note_content">
+						<div class="wooon_latest_note">
+							<div class="note_content">
 								<?php echo wpautop( wptexturize( wp_kses_post( $note->comment_content ) ) ); ?>
-                            </div>
-                            <div class="note_meta">
+							</div>
+							<div class="note_meta">
 								<?php
-								printf( /* translators: date time */ esc_html__( '%1$s %2$s', 'woo-order-notes' ), date_i18n( wc_date_format(), strtotime( $note->comment_date ) ), date_i18n( wc_time_format(), strtotime( $note->comment_date ) ) );
-
+								printf( esc_html__( '%1$s %2$s', 'woo-order-notes' ), date_i18n( wc_date_format(), strtotime( $note->comment_date ) ), date_i18n( wc_time_format(), strtotime( $note->comment_date ) ) );
+		
 								if ( $note->comment_author != 'WooCommerce' ) {
-									printf( ' ' . /* translators: author */ esc_html__( 'by %s', 'woo-order-notes' ), $note->comment_author );
+									printf( ' ' . esc_html__( 'by %s', 'woo-order-notes' ), $note->comment_author );
 								}
-
+		
 								if ( get_comment_meta( $note->comment_ID, 'is_customer_note', true ) === '1' ) {
 									echo ' <i class="dashicons dashicons-yes"></i> ' . esc_html__( 'Note to customer', 'woo-order-notes' );
 								}
 								?>
-                            </div>
-                        </div>
+							</div>
+						</div>
 						<?php
 					}
 				}
 			}
-
+		
 			if ( $column == 'wooon_quickview' ) {
 				?>
-                <a href="#" class="wooon-quickview" data-order="<?php echo esc_attr( $order_id ); ?>" data-current="0">
-                    <i class="dashicons dashicons-format-chat"></i> </a>
+				<a href="#" class="wooon-quickview" data-order="<?php echo esc_attr( $order_id ); ?>" data-current="0">
+					<i class="dashicons dashicons-format-chat"></i> </a>
 				<?php
 			}
 		}
-
+		
 		function woo_add_manual_order_notes_to_email($order, $sent_to_admin, $plain_text, $email) {
-			// Only proceed if the email is being sent to the admin
-			if (!$sent_to_admin) {
-				return; // Exit the function if it's not an admin email
+			if ( !$sent_to_admin ) {
+				return;
 			}
 		
-			// Get the list of admin users
-			$admin_users = get_users(array(
-				'role' => 'administrator',
-				'fields' => array('user_login', 'display_name')
-			));
+			$admin_users = get_users([
+				'role'   => 'administrator',
+				'fields' => ['user_login', 'display_name']
+			]);
 		
-			// Create a list of admin usernames and display names
-			$admin_usernames = wp_list_pluck($admin_users, 'user_login');
-			$admin_display_names = wp_list_pluck($admin_users, 'display_name');
+			$admin_usernames = wp_list_pluck( $admin_users, 'user_login' );
+			$admin_display_names = wp_list_pluck( $admin_users, 'display_name' );
 		
-			// Prepare arguments to fetch all order notes
-			$args = array(
-				'limit' => '', // No limit on the number of notes to retrieve
-				'order_id' => $order->get_id(), // Fetch notes for the specific order ID
-			);
-			$notes = wc_get_order_notes($args); // Retrieve the order notes
+			$args = [
+				'limit'    => '',
+				'order_id' => $order->get_id(),
+			];
+			$notes = wc_get_order_notes( $args );
 		
-			// Debugging: Check if notes are retrieved
-			error_log('Order Notes: ' . print_r($notes, true));
-		
-			// If there are no notes, display a message
-			if (empty($notes)) {
+			if ( empty( $notes ) ) {
 				echo '<li class="no-order-comment">There are no order notes</li>';
-				return; // Exit the function if there are no notes
+				return;
 			}
 		
-			// Display the order notes with a specific heading and styling
 			echo '<h4 style="font-family:Arial,sans-serif;font-size:120%;line-height:110%;color:red;">IMPORTANT Order Notes</h4>';
 			echo '<ul class="order_notes">';
 		
-			// Loop through each note and print it if it is manually added by an admin
-			foreach ($notes as $note) {
-				// Check if the note was added by an admin
-				if (isset($note->added_by) && (in_array($note->added_by, $admin_usernames) || in_array($note->added_by, $admin_display_names))) {
-					// Debugging: Check note details
-					error_log('Note ID: ' . $note->id . ', Content: ' . $note->content);
-		
-					// Determine the classes for the note element
-					$note_classes = $note->customer_note ? array('customer-note', 'note') : array('note');
+			foreach ( $notes as $note ) {
+				if ( isset( $note->added_by ) && ( in_array( $note->added_by, $admin_usernames ) || in_array( $note->added_by, $admin_display_names ) ) ) {
+					$note_classes = $note->customer_note ? ['customer-note', 'note'] : ['note'];
 					?>
-					<li rel="<?php echo absint($note->id); ?>" class="<?php echo implode(' ', $note_classes); ?>">
+					<li rel="<?php echo absint( $note->id ); ?>" class="<?php echo implode(' ', $note_classes); ?>">
 						<div class="note_content">
-							<?php
-							// Output the note content, safely formatted
-							echo wpautop(wptexturize(wp_kses_post($note->content)));
-							?>
+							<?php echo wpautop( wptexturize( wp_kses_post( $note->content ) ) ); ?>
 						</div>
+						<p class="meta">
+							<abbr class="exact-date" title="<?php echo date_i18n( 'Y-m-d H:i:s', strtotime( $note->date_created ) ); ?>">
+								<?php printf( esc_html__( '%1$s at %2$s', 'woocommerce' ), date_i18n( wc_date_format(), strtotime( $note->date_created ) ), date_i18n( wc_time_format(), strtotime( $note->date_created ) ) ); ?>
+							</abbr>
+						</p>
 					</li>
 					<?php
-				} else {
-					// Debugging: Note not added by an admin
-					error_log('Note not added by admin or missing added_by property. Note ID: ' . $note->id);
 				}
 			}
 			echo '</ul>';
 		}
+		
 	}
 
 	return WPCleverWooon::instance();
